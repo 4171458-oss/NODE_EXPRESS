@@ -7,11 +7,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// DEBUG – לוודא שהטוקן נטען
-console.log("=== DEBUG: Render API Token ===");
-console.log("Exists:", !!process.env.RENDER_API_KEY);
-console.log("First 6 chars:", process.env.RENDER_API_KEY?.substring(0, 6));
-console.log("================================");
+app.get("/", (req, res) => {
+  res.send("Node server is running. Go to /services");
+});
 
 app.get("/services", async (req, res) => {
   try {
@@ -22,7 +20,6 @@ app.get("/services", async (req, res) => {
       }
     });
 
-    // אם קרה שגיאה מצד ה-API
     if (!response.ok) {
       const text = await response.text();
       return res.status(response.status).json({
